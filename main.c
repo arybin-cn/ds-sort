@@ -161,9 +161,30 @@ PIntArray quickSort(PIntArray pOldArray){
   return pNewArray;
 }
 
+PIntArray normalSelectSort(PIntArray pOldArray){
+  PIntArray pNewArray=cloneIntArray(pOldArray);
+  int i,j,change,minIndex;
+  for(i=0;i<pNewArray->size;i++){
+    minIndex=i;change=0;
+    for(j=i;j<pNewArray->size;j++){
+      if(pNewArray->data[j]<pNewArray->data[minIndex]){
+        change=1;
+        minIndex=j;
+      }
+    }
+    if(change){
+      pNewArray->data[i]^=pNewArray->data[minIndex];
+      pNewArray->data[minIndex]^=pNewArray->data[i];
+      pNewArray->data[i]^=pNewArray->data[minIndex];
+    }
+  }
+  return pNewArray;
+}
+
 int main(){
   PIntArray pIntArray = randomIntArray(1,30,10);
   printlnIntArray(pIntArray);
+  printlnIntArray(sortIntArrayBy(pIntArray,normalSelectSort));
   printlnIntArray(sortIntArrayBy(pIntArray,quickSort));
   printlnIntArray(sortIntArrayBy(pIntArray,binInsertSort));
   printlnIntArray(sortIntArrayBy(pIntArray,normalInsertSort));
