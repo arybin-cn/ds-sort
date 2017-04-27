@@ -76,13 +76,13 @@ PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
 }
 
 void bubbleSort(int *data,int size){
-  int i,j;
+  int i,j,swap;
   for(i=0;i<size;i++){
     for(j=0;j<size-i-1;j++){
       if(data[j+1]<data[j]){
-        data[j]^=data[j+1];
-        data[j+1]^=data[j];
-        data[j]^=data[j+1];
+        swap=data[j];
+        data[j]=data[j+1];
+        data[j+1]=swap;
       }
     }
   }
@@ -151,7 +151,7 @@ void quickSort(int *data,int size){
 }
 
 void normalSelectSort(int *data,int size){
-  int i,j,changed,minIndex;
+  int i,j,changed,minIndex,swap;
   for(i=0;i<size;i++){
     minIndex=i;changed=0;
     for(j=i;j<size;j++){
@@ -161,15 +161,15 @@ void normalSelectSort(int *data,int size){
       }
     }
     if(changed){
-      data[i]^=data[minIndex];
-      data[minIndex]^=data[i];
-      data[i]^=data[minIndex];
+      swap=data[minIndex];
+      data[minIndex]=data[i];
+      data[i]=swap;
     }
   }
 }
 
 void buildHeapDown(int *data,int index,int size){
-  int greaterChild,leftChild=2*index+1,rightChild;
+  int greaterChild,leftChild=2*index+1,rightChild,swap;
   while(leftChild<size){
     rightChild=leftChild+1;
     greaterChild=leftChild;
@@ -177,9 +177,9 @@ void buildHeapDown(int *data,int index,int size){
       greaterChild=rightChild;
     }
     if(data[greaterChild]>data[index]){
-      data[greaterChild]^=data[index];
-      data[index]^=data[greaterChild];
-      data[greaterChild]^=data[index];
+      swap=data[greaterChild];
+      data[greaterChild]=data[index];
+      data[index]=swap;
     }
     index=greaterChild;
     leftChild=2*index+1;
@@ -200,7 +200,7 @@ void heapSelectSort(int *data,int size){
 }
 
 int main(){
-  PIntArray pIntArray = randomIntArray(1,300,10);
+  PIntArray pIntArray = randomIntArray(1,20,15);
   printlnIntArray(pIntArray);
 
   printlnIntArray(sortedIntArrayBy(pIntArray,heapSelectSort));
