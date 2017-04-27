@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct {
   int* data;
@@ -137,9 +138,33 @@ PIntArray binInsertSort(PIntArray pOldArray){
   return pNewArray;
 }
 
+void innerQuickSort(PIntArray pIntArray,int from,int to){
+  int tmp=pIntArray->data[from];
+  int i=from,j=to;
+  if(j>i){
+    while(j>i){
+      while(pIntArray->data[j]>=tmp && j>i) j--;
+      pIntArray->data[i]=pIntArray->data[j];
+      while(pIntArray->data[i]<=tmp && j>i) i++;
+      pIntArray->data[j]=pIntArray->data[i];
+    }
+    pIntArray->data[i]=tmp;
+    innerQuickSort(pIntArray,from,i-1);
+    innerQuickSort(pIntArray,i+1,to);
+  }
+  return;
+}
+
+PIntArray quickSort(PIntArray pOldArray){
+  PIntArray pNewArray=cloneIntArray(pOldArray);
+  innerQuickSort(pNewArray,0,pNewArray->size-1);
+  return pNewArray;
+}
+
 int main(){
   PIntArray pIntArray = randomIntArray(1,30,10);
   printlnIntArray(pIntArray);
+  printlnIntArray(sortIntArrayBy(pIntArray,quickSort));
   printlnIntArray(sortIntArrayBy(pIntArray,binInsertSort));
   printlnIntArray(sortIntArrayBy(pIntArray,normalInsertSort));
   printlnIntArray(sortIntArrayBy(pIntArray,bubbleSort));
