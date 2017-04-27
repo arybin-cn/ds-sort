@@ -97,7 +97,7 @@ void bubbleSort(int *data,int size){
   }
 }
 
-void innerShellSort(int *data,int size,int d){
+void innerNormalShellSort(int *data,int size,int d){
   int i,j,k,tmp;
   for(i=0;i<d;i++){
     for(j=i+d;j<size;j+=d){
@@ -118,12 +118,44 @@ void innerShellSort(int *data,int size,int d){
 void normalShellSort(int *data,int size){
   int i;
   for(i=size/2;i>0;i/=2){
-    innerShellSort(data,size,i);
+    innerNormalShellSort(data,size,i);
   }
 }
 
 void normalInsertSort(int *data,int size){
-  innerShellSort(data,size,1);
+  innerNormalShellSort(data,size,1);
+}
+
+void innerBinShellSort(int *data,int size,int d){
+  int i,j,k,tmp,low,high,middle;
+  for(i=0;i<d;i++){
+    for(j=i+d;j<size;j+=d){
+      if(data[j]<data[j-d]){
+        tmp=data[j];
+        low=0;high=(j-d-i)/d;
+        while(low<=high){
+          middle=(low+high)/2;
+          if(data[i+middle*d]<=tmp){
+            low=middle+1;
+          }else{
+            high=middle-1;
+          }
+        }
+        low=i+low*d;
+        for(k=j;k>low;k-=d){
+          data[k]=data[k-d];
+        }
+        data[low]=tmp;
+      }
+    }
+  }
+}
+
+void binShellSort(int *data,int size){
+  int i;
+  for(i=size/2;i>0;i/=2){
+    innerBinShellSort(data,size,i);
+  }
 }
 
 void binInsertSort(int *data,int size){
@@ -217,8 +249,6 @@ void heapSelectSort(int *data,int size){
   }
 }
 
-
-
 int main(){
   PIntArray pIntArray = randomIntArray(1,20,15);
   printlnIntArray(pIntArray);
@@ -226,6 +256,7 @@ int main(){
   printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,heapSelectSort));
   //insert sort
+  printlnIntArray(sortedIntArrayBy(pIntArray,binShellSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,normalShellSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,normalInsertSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,binInsertSort));
