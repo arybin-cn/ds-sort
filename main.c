@@ -7,7 +7,8 @@ typedef struct {
   int size;
 }IntArray, *PIntArray;
 
-typedef PIntArray (*IntArraySorter)(PIntArray);
+typedef void (*IntArraySorter)(int *data,int size);
+
 PIntArray buildIntArray(int size){
   PIntArray pIntArray;
   pIntArray=(PIntArray)malloc(sizeof(IntArray));
@@ -68,38 +69,32 @@ void releaseIntArray(PIntArray pIntArray){
   free(pIntArray);
 }
 
-PIntArray sortIntArrayBy(PIntArray pIntArray,IntArraySorter sorter){
-  return sorter(pIntArray);
-}
-//typedef void (*IntArraySorter)(PIntArray);
-void linkSort(PIntArray pIntArray){
-  printf("%d\n",pIntArray->size);
-  pIntArray->data[0]=1234;
-}
-
-PIntArray bubbleSort(PIntArray pOldArray){
-  PIntArray pNewArray=cloneIntArray(pOldArray);
-  int i,j;
-  for(i=0;i<pNewArray->size;i++){
-    for(j=0;j<pNewArray->size-i-1;j++){
-      if(pNewArray->data[j+1]<pNewArray->data[j]){
-        pNewArray->data[j]^=pNewArray->data[j+1];
-        pNewArray->data[j+1]^=pNewArray->data[j];
-        pNewArray->data[j]^=pNewArray->data[j+1];
-      }
-    }
-  }
+PIntArray sortIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
+  PIntArray pNewArray = cloneIntArray(pOldArray);
+  sorter(pNewArray->data,pNewArray->size);
   return pNewArray;
 }
 
-PIntArray normalInsertSort(PIntArray pOldArray){
-  PIntArray pNewArray=buildIntArray(pOldArray->size);
+void bubbleSort(int *data,int size){
   int i,j;
-  int *tmp=(int*)malloc(pOldArray->size*sizeof(int)+1);
-  for(i=1;i<pOldArray->size+1;i++){
-    tmp[i]=pOldArray->data[i-1];
+  for(i=0;i<size;i++){
+    for(j=0;j<size-i-1;j++){
+      if(data[j+1]<data[j]){
+        data[j]^=data[j+1];
+        data[j+1]^=data[j];
+        data[j]^=data[j+1];
+      }
+    }
   }
-  for(i=1;i<pOldArray->size+1;i++){
+}
+
+void normalInsertSort(int *data,int size){
+  int i,j;
+  int *tmp=(int*)malloc(size*sizeof(int)+1);
+  for(i=1;i<size+1;i++){
+    tmp[i]=data[i-1];
+  }
+  for(i=1;i<size+1;i++){
     tmp[0]=tmp[i];
     j=i;
     while(tmp[j-1]>tmp[0]){
@@ -108,77 +103,69 @@ PIntArray normalInsertSort(PIntArray pOldArray){
     }
     tmp[j]=tmp[0];
   }
-  for(i=0;i<pOldArray->size;i++){
-    pNewArray->data[i]=tmp[i+1];
+  for(i=0;i<size;i++){
+    data[i]=tmp[i+1];
   }
-  return pNewArray;
 }
 
-PIntArray binInsertSort(PIntArray pOldArray){
-  PIntArray pNewArray=cloneIntArray(pOldArray);
+void binInsertSort(int *data,int size){
   int i,j,low,middle,high,tmp;
-  for(i=1;i<pNewArray->size;i++){
-    tmp=pNewArray->data[i];
+  for(i=1;i<size;i++){
+    tmp=data[i];
     low=0;high=i-1;
-    if (tmp<pNewArray->data[i-1]){
+    if (tmp<data[i-1]){
       while(low<=high){
         middle=(low+high)/2;
-        if(pNewArray->data[middle]<=tmp){
+        if(data[middle]<=tmp){
           low=middle+1;
           continue;
         }
         high=middle-1;
       }
       for(j=i;j>low;j--){
-        pNewArray->data[j]=pNewArray->data[j-1];
+        data[j]=data[j-1];
       }
-      pNewArray->data[low]=tmp;
+      data[low]=tmp;
     }
   }
-  return pNewArray;
 }
 
-void innerQuickSort(PIntArray pIntArray,int from,int to){
-  int tmp=pIntArray->data[from];
-  int i=from,j=to;
-  if(j>i){
+void innerQuickSort(int *data,int from,int to){
+  int tmp,i,j;
+  if(to>from){
+  tmp=data[from];i=from,j=to;
     while(j>i){
-      while(pIntArray->data[j]>=tmp && j>i) j--;
-      pIntArray->data[i]=pIntArray->data[j];
-      while(pIntArray->data[i]<=tmp && j>i) i++;
-      pIntArray->data[j]=pIntArray->data[i];
+      while(data[j]>=tmp && j>i) j--;
+      data[i]=data[j];
+      while(data[i]<=tmp && j>i) i++;
+      data[j]=data[i];
     }
-    pIntArray->data[i]=tmp;
-    innerQuickSort(pIntArray,from,i-1);
-    innerQuickSort(pIntArray,i+1,to);
+    data[i]=tmp;
+    innerQuickSort(data,from,i-1);
+    innerQuickSort(data,i+1,to);
   }
-  return;
 }
 
-PIntArray quickSort(PIntArray pOldArray){
-  PIntArray pNewArray=cloneIntArray(pOldArray);
-  innerQuickSort(pNewArray,0,pNewArray->size-1);
-  return pNewArray;
+void quickSort(int *data,int size){
+  innerQuickSort(data,0,size-1);
 }
 
-PIntArray normalSelectSort(PIntArray pOldArray){
-  PIntArray pNewArray=cloneIntArray(pOldArray);
-  int i,j,change,minIndex;
-  for(i=0;i<pNewArray->size;i++){
-    minIndex=i;change=0;
-    for(j=i;j<pNewArray->size;j++){
-      if(pNewArray->data[j]<pNewArray->data[minIndex]){
-        change=1;
+void normalSelectSort(int *data,int size){
+  int i,j,changed,minIndex;
+  for(i=0;i<size;i++){
+    minIndex=i;changed=0;
+    for(j=i;j<size;j++){
+      if(data[j]<data[minIndex]){
+        changed=1;
         minIndex=j;
       }
     }
-    if(change){
-      pNewArray->data[i]^=pNewArray->data[minIndex];
-      pNewArray->data[minIndex]^=pNewArray->data[i];
-      pNewArray->data[i]^=pNewArray->data[minIndex];
+    if(changed){
+      data[i]^=data[minIndex];
+      data[minIndex]^=data[i];
+      data[i]^=data[minIndex];
     }
   }
-  return pNewArray;
 }
 
 int main(){
