@@ -69,7 +69,7 @@ void releaseIntArray(PIntArray pIntArray){
   free(pIntArray);
 }
 
-PIntArray sortIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
+PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
   PIntArray pNewArray = cloneIntArray(pOldArray);
   sorter(pNewArray->data,pNewArray->size);
   return pNewArray;
@@ -133,7 +133,7 @@ void binInsertSort(int *data,int size){
 void innerQuickSort(int *data,int from,int to){
   int tmp,i,j;
   if(to>from){
-  tmp=data[from];i=from,j=to;
+    tmp=data[from];i=from,j=to;
     while(j>i){
       while(data[j]>=tmp && j>i) j--;
       data[i]=data[j];
@@ -168,13 +168,46 @@ void normalSelectSort(int *data,int size){
   }
 }
 
+void buildHeapDown(int *data,int index,int size){
+  int greaterChild,leftChild=2*index+1,rightChild;
+  while(leftChild<size){
+    rightChild=leftChild+1;
+    greaterChild=leftChild;
+    if(rightChild<size && data[rightChild]>data[leftChild]){
+      greaterChild=rightChild;
+    }
+    if(data[greaterChild]>data[index]){
+      data[greaterChild]^=data[index];
+      data[index]^=data[greaterChild];
+      data[greaterChild]^=data[index];
+    }
+    index=greaterChild;
+    leftChild=2*index+1;
+  }
+}
+
+void heapSelectSort(int *data,int size){
+  int i,swap;
+  for(i=size-1;i>-1;i--){
+    buildHeapDown(data,i,size);
+  }
+  while(size>1){
+    swap=data[size-1];
+    data[size-1]=data[0];
+    data[0]=swap;
+    buildHeapDown(data,0,--size);
+  }
+}
+
 int main(){
-  PIntArray pIntArray = randomIntArray(1,30,10);
+  PIntArray pIntArray = randomIntArray(1,300,10);
   printlnIntArray(pIntArray);
-  printlnIntArray(sortIntArrayBy(pIntArray,normalSelectSort));
-  printlnIntArray(sortIntArrayBy(pIntArray,quickSort));
-  printlnIntArray(sortIntArrayBy(pIntArray,binInsertSort));
-  printlnIntArray(sortIntArrayBy(pIntArray,normalInsertSort));
-  printlnIntArray(sortIntArrayBy(pIntArray,bubbleSort));
+
+  printlnIntArray(sortedIntArrayBy(pIntArray,heapSelectSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,normalInsertSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,binInsertSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,bubbleSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,quickSort));
   return 0;
 }
