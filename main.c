@@ -159,25 +159,7 @@ void binShellSort(int *data,int size){
 }
 
 void binInsertSort(int *data,int size){
-  int i,j,low,middle,high,tmp;
-  for(i=1;i<size;i++){
-    tmp=data[i];
-    low=0;high=i-1;
-    if (tmp<data[i-1]){
-      while(low<=high){
-        middle=(low+high)/2;
-        if(data[middle]<=tmp){
-          low=middle+1;
-          continue;
-        }
-        high=middle-1;
-      }
-      for(j=i;j>low;j--){
-        data[j]=data[j-1];
-      }
-      data[low]=tmp;
-    }
-  }
+  innerBinShellSort(data,size,1);
 }
 
 void innerQuickSort(int *data,int from,int to){
