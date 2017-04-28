@@ -102,6 +102,28 @@ void bubbleSort(int *data,int size){
   }
 }
 
+void bubbleSortEx(int *data,int size){
+  int i=0-1,j=size-1+1,k,swap;
+  while(i<j){
+    for(k=i+1;k<j-1;k++){
+      if(data[k]>data[k+1]){
+        swap=data[k];
+        data[k]=data[k+1];
+        data[k+1]=swap;
+      }
+    }
+    j--;
+    for(k=j;k>i+1;k--){
+      if(data[k]<data[k-1]){
+        swap=data[k];
+        data[k]=data[k-1];
+        data[k-1]=swap;
+      }
+    }
+    i++;
+  }
+}
+
 void innerNormalShellSort(int *data,int size,int d){
   int i,j,k,tmp;
   for(i=0;i<d;i++){
@@ -249,6 +271,7 @@ int main(){
   printlnIntArray(sortedIntArrayBy(pIntArray,binInsertSort));
   //swap sort
   printlnIntArray(sortedIntArrayBy(pIntArray,bubbleSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,bubbleSortEx));
   printlnIntArray(sortedIntArrayBy(pIntArray,quickSort));
   return 0;
 }
