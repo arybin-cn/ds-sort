@@ -102,25 +102,34 @@ void bubbleSort(int *data,int size){
   }
 }
 
-void bubbleSortEx(int *data,int size){
-  int i=0-1,j=size-1+1,k,swap;
+void cockTailSort(int *data,int size){
+  int i=0-1,j=size-1+1,k,swap,changed;
   while(i<j){
+    changed=0;
     for(k=i+1;k<j-1;k++){
       if(data[k]>data[k+1]){
+        changed=1;
         swap=data[k];
         data[k]=data[k+1];
         data[k+1]=swap;
       }
     }
+    if(!changed){
+      break;
+    }
     j--;
     for(k=j;k>i+1;k--){
       if(data[k]<data[k-1]){
+        changed=1;
         swap=data[k];
         data[k]=data[k-1];
         data[k-1]=swap;
       }
     }
     i++;
+    if(!changed){
+      break;
+    }
   }
 }
 
@@ -258,8 +267,45 @@ void heapSelectSort(int *data,int size){
   }
 }
 
+void innerMergeSort(int* data,int* tmp,int low,int high){
+  int middle,i,j,k,swap;
+  if(high<=low+1){
+    if(data[high]<data[low]){
+      swap=data[low];
+      data[low]=data[high];
+      data[high]=swap;
+    }
+    return;
+  }
+  middle=(low+high)/2;
+  innerMergeSort(data,tmp,low,middle);
+  innerMergeSort(data,tmp,middle+1,high);
+  i=low;j=middle+1;k=0;
+  while(i<=middle && j<=high)
+    if(data[i]<=data[j]){
+      tmp[k++]=data[i++];
+    }else{
+      tmp[k++]=data[j++];
+    }
+  while(i<=middle){
+    tmp[k++]=data[i++];
+  }
+  while(j<=high){
+    tmp[k++]=data[j++];
+  }
+  for(i=low,k=0;i<=high;i++,k++){
+    data[i]=tmp[k];
+  }
+}
+
+void mergeSort(int *data,int size){
+  int* tmp=(int*)malloc(size*sizeof(int));
+  innerMergeSort(data,tmp,0,size-1);
+  free(tmp);
+}
+
 int main(){
-  PIntArray pIntArray = randomIntArray(1,20,15);
+  PIntArray pIntArray = randomIntArray(1,80,16);
   printlnIntArray(pIntArray);
   //select sort
   printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
@@ -271,7 +317,9 @@ int main(){
   printlnIntArray(sortedIntArrayBy(pIntArray,binInsertSort));
   //swap sort
   printlnIntArray(sortedIntArrayBy(pIntArray,bubbleSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,bubbleSortEx));
+  printlnIntArray(sortedIntArrayBy(pIntArray,cockTailSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,quickSort));
+  //merge sort
+  printlnIntArray(sortedIntArrayBy(pIntArray,mergeSort));
   return 0;
 }
