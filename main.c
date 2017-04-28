@@ -87,8 +87,8 @@ PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
 void bubbleSort(int *data,int size){
   int i,j,changed,swap;
   for(i=0;i<size;i++){
+    changed=0;
     for(j=0;j<size-i-1;j++){
-      changed=0;
       if(data[j+1]<data[j]){
         changed=1;
         swap=data[j];
