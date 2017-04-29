@@ -304,8 +304,11 @@ void mergeSort(int *data,int size){
   free(tmp);
 }
 
+void radixSort(int *data,int size){
+}
+
 int main(){
-  PIntArray pIntArray = randomIntArray(1,80,16);
+  PIntArray pIntArray = randomIntArray(1,80,15);
   printlnIntArray(pIntArray);
   //select sort
   printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
@@ -321,5 +324,9 @@ int main(){
   printlnIntArray(sortedIntArrayBy(pIntArray,quickSort));
   //merge sort
   printlnIntArray(sortedIntArrayBy(pIntArray,mergeSort));
+  //radix sort
+  printlnIntArray(sortedIntArrayBy(pIntArray,radixSort));
+
+  
   return 0;
 }
