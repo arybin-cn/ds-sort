@@ -304,18 +304,45 @@ void mergeSort(int *data,int size){
   free(tmp);
 }
 
-void radixSort(int *data,int size){
+void linkSort(int *data,int size){
+  int i,j,tmp,first=0;
+  int *links=(int*)malloc(size*sizeof(int));
+  int *buf=(int*)malloc(size*sizeof(int));
+  for(i=0;i<size;i++){
+    links[i]=-1;
+  }
+  for(i=1;i<size;i++){
+    if(data[i]<data[first]){
+      links[i]=first;
+      first=i;
+      continue;
+    }
+    j=first;
+    while(links[j]>=0 && data[links[j]]<=data[i]) j=links[j];
+    tmp=links[j];
+    links[j]=i;
+    links[i]=tmp;
+  }
+  for(i=0,j=first;j>=0;j=links[j]){
+    buf[i++]=data[j];
+  }
+  for(i=0;i<size;i++){
+    data[i]=buf[i];
+  }
+  free(links);
+  free(buf);
 }
 
 int main(){
-  PIntArray pIntArray = randomIntArray(1,80,15);
+  PIntArray pIntArray = randomIntArray(1,40,12);
   printlnIntArray(pIntArray);
   //select sort
   printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,heapSelectSort));
   //insert sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,binShellSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,linkSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,normalShellSort));
+  printlnIntArray(sortedIntArrayBy(pIntArray,binShellSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,normalInsertSort));
   printlnIntArray(sortedIntArrayBy(pIntArray,binInsertSort));
   //swap sort
@@ -325,8 +352,7 @@ int main(){
   //merge sort
   printlnIntArray(sortedIntArrayBy(pIntArray,mergeSort));
   //radix sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,radixSort));
-
+  //printlnIntArray(sortedIntArrayBy(pIntArray,radixSort));
   
   return 0;
 }
