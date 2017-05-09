@@ -333,6 +333,50 @@ void linkSort(int *data,int size){
   free(buf);
 }
 
+void radixSort(int *data,int size){
+  int bitsPerGroup=4,mask=(1<<bitsPerGroup)-1;
+  int i,j,k,l,tmp=0,maxBits=0,sortCount,*links,*maps,*buf;
+  links=(int*)malloc(size*sizeof(int));
+  maps=(int*)malloc((mask+1)*sizeof(int));
+  buf=(int*)malloc(size*sizeof(int));
+  for(i=0;i<size;i++){
+    tmp|=data[i];
+  }
+  while(tmp!=0){
+    tmp>>=1;maxBits++;
+  }
+  sortCount=maxBits/bitsPerGroup+((maxBits%bitsPerGroup)!=0);
+  for(i=0;i<sortCount;i++){
+    for(j=0;j<size;j++){
+      buf[j]=data[j];
+    }
+    for(j=0;j<mask+1;j++){
+      maps[j]=-1;
+    }
+    for(j=0;j<size;j++){
+      links[j]=-1;
+    }
+    for(j=0;j<size;j++){
+      tmp=(buf[j]>>(i*bitsPerGroup))&mask;
+      if(maps[tmp]>-1){
+        k=maps[tmp];
+        while(links[k]>-1)k=links[k];
+        links[k]=j;
+      }else{
+        maps[tmp]=j;
+      }
+    }
+    for(j=0,k=0;j<mask+1;j++){
+      l=maps[j];
+      while(l>-1){
+        data[k++]=buf[l];
+        l=links[l];
+      }
+    }
+  }
+  free(maps);free(links);
+}
+
 int main(){
   PIntArray pIntArray = randomIntArray(1,40,12);
   printlnIntArray(pIntArray);
@@ -352,7 +396,7 @@ int main(){
   //merge sort
   printlnIntArray(sortedIntArrayBy(pIntArray,mergeSort));
   //radix sort
-  //printlnIntArray(sortedIntArrayBy(pIntArray,radixSort));
-  
+  printlnIntArray(sortedIntArrayBy(pIntArray,radixSort));
+
   return 0;
 }
