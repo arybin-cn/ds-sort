@@ -329,8 +329,7 @@ void linkSort(int *data,int size){
   for(i=0;i<size;i++){
     data[i]=buf[i];
   }
-  free(links);
-  free(buf);
+  free(links);free(buf);
 }
 
 void radixSort(int *data,int size){
@@ -362,9 +361,10 @@ void radixSort(int *data,int size){
         k=maps[tmp];
         while(links[k]>-1)k=links[k];
         links[k]=j;
-      }else{
-        maps[tmp]=j;
+        continue;
       }
+      maps[tmp]=j;
+
     }
     for(j=0,k=0;j<mask+1;j++){
       l=maps[j];
@@ -378,7 +378,7 @@ void radixSort(int *data,int size){
 }
 
 int main(){
-  PIntArray pIntArray = randomIntArray(1,40,12);
+  PIntArray pIntArray = randomIntArray(1,40,10);
   printlnIntArray(pIntArray);
   //select sort
   printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
