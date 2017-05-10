@@ -374,7 +374,7 @@ void radixSort(int *data,int size){
       }
     }
   }
-  free(maps);free(links);
+  free(maps);free(links);free(buf);
 }
 
 int main(){
