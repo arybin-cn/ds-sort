@@ -137,15 +137,12 @@ void innerNormalShellSort(int *data,int size,int d){
   int i,j,k,tmp;
   for(i=0;i<d;i++){
     for(j=i+d;j<size;j+=d){
-      if(data[j-d]>data[j]){
-        tmp=data[j];
-        k=j;
-        do{
-          data[k]=data[k-d];
-          k-=d;
-        }while(k>i && data[k-d]>tmp);
-        data[k]=tmp;
+      tmp=data[j];k=j;
+      while(k>i && data[k-d]>tmp){
+        data[k]=data[k-d];
+        k-=d;
       }
+      data[k]=tmp;
     }
   }
 }
