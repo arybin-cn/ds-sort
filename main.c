@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define TestSort(pIntArray,SortMethod) \
+  printf("%16s: ",#SortMethod);\
+  releaseIntArray(sortedIntArrayBy(pIntArray,SortMethod));\
+
 #define DBG
 typedef struct {
   int* data;
@@ -85,7 +89,7 @@ PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
   int start=timeInMS();
 #endif
   sorter(pNewArray->data,pNewArray->size);
-  printf("Time consumed: %dms\n",timeInMS()-start);
+  printf("%dms\n",timeInMS()-start);
   return pNewArray;
 }
 
@@ -393,26 +397,30 @@ int timeInMS(){
   return clock()/(CLOCKS_PER_SEC/1000);
 }
 
+int c(IntArray i){
+  return 1;
+}
+
 int main(){
-  PIntArray pIntArray = randomIntArray(1,40,10);
+  PIntArray pIntArray = randomIntArray(1,9999999,5000);
   printlnIntArray(pIntArray);
   //select sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,normalSelectSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,heapSelectSort));
+  TestSort(pIntArray,normalShellSort);
+  TestSort(pIntArray,heapSelectSort);
   //insert sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,linkSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,normalShellSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,binShellSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,normalInsertSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,binInsertSort));
+  TestSort(pIntArray,linkSort);
+  TestSort(pIntArray,normalShellSort);
+  TestSort(pIntArray,binShellSort);
+  TestSort(pIntArray,normalInsertSort);
+  TestSort(pIntArray,binInsertSort);
   //swap sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,bubbleSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,cockTailSort));
-  printlnIntArray(sortedIntArrayBy(pIntArray,quickSort));
+  TestSort(pIntArray,bubbleSort);
+  TestSort(pIntArray,cockTailSort);
+  TestSort(pIntArray,quickSort);
   //merge sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,mergeSort));
+  TestSort(pIntArray,mergeSort);
   //radix sort
-  printlnIntArray(sortedIntArrayBy(pIntArray,radixSort));
+  TestSort(pIntArray,radixSort);
 
   return 0;
 }
