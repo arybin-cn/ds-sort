@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define DBG
 typedef struct {
   int* data;
   int size;
@@ -80,7 +81,11 @@ void releaseIntArray(PIntArray pIntArray){
 
 PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
   PIntArray pNewArray = cloneIntArray(pOldArray);
+#ifdef DBG
+  int start=timeInMS();
+#endif
   sorter(pNewArray->data,pNewArray->size);
+  printf("Time consumed: %dms\n",timeInMS()-start);
   return pNewArray;
 }
 
@@ -372,6 +377,20 @@ void radixSort(int *data,int size){
     }
   }
   free(maps);free(links);free(buf);
+}
+
+int isOrdered(PIntArray pIntArray){
+  int i;
+  for(i=1;i<pIntArray->size;i++){
+    if(pIntArray->data[i]<pIntArray->data[i-1]){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+int timeInMS(){
+  return clock()/(CLOCKS_PER_SEC/1000);
 }
 
 int main(){
