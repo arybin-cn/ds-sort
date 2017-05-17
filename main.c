@@ -397,10 +397,6 @@ int timeInMS(){
   return clock()/(CLOCKS_PER_SEC/1000);
 }
 
-int c(IntArray i){
-  return 1;
-}
-
 int main(){
   PIntArray pIntArray = randomIntArray(1,9999999,5000);
   printlnIntArray(pIntArray);
