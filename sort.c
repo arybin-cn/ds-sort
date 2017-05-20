@@ -324,7 +324,7 @@ void linkSort(int *data,int size){
 }
 
 void radixSort(int *data,int size){
-  int bitsPerGroup=16,mask=(1<<bitsPerGroup)-1;
+  int bitsPerGroup=4,mask=(1<<bitsPerGroup)-1;
   int i,j,k,l,tmp=0,maxBits=0,sortCount,*links,*maps,*buf;
   links=(int*)malloc(size*sizeof(int));
   maps=(int*)malloc((mask+1)*sizeof(int));

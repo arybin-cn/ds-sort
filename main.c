@@ -6,14 +6,14 @@
   time=timeInMS();\
   pSortedArray=sortedIntArrayBy(pRawArray,SortMethod);\
   printf(" %6dms",timeInMS()-time);\
-  printf(" %10s\n",isOrdered(pSortedArray) ? "sorted" : "unsorted");\
+  printf(" %10s\n",isOrdered(pSortedArray)?"sorted":"unsorted");\
   releaseIntArray(pSortedArray);\
 
 
 int main(){
   int time;
   PIntArray pRawArray,pSortedArray;
-  pRawArray = randomIntArray(1,400,10000);
+  pRawArray = randomIntArray(1,400,50000);
   printf("%s",isOrdered(pRawArray)?"Sorted":"Unsorted");
   printf(" raw int array with size %d\n",pRawArray->size);
   //select sort
