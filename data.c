@@ -3,18 +3,19 @@
 
 #define N_FROM 1000
 #define N_STEP 100
-#define N_TO 50000
+#define N_TO 30000
 
 #define K_FROM 1
 #define K_MUL 10
 #define K_TO 100000
 
 #define Data(SortMethod) \
-  pF=fopen(#SortMethod ".csv","w+");\
+  pF=fopen("data/" #SortMethod "_sorted.csv","w+");\
   for(n=N_FROM;n<=N_TO;n+=N_STEP){\
     for(k=K_FROM;k<=K_TO;k*=K_MUL){\
       printf("Evaluating " #SortMethod " k:%d,n:%d\n",k,n);\
       pRawArray=randomIntArray(1,k,n);\
+      sortIntArrayBy(pRawArray,quickSort);\
       time=timeInMS();\
       releaseIntArray(sortedIntArrayBy(pRawArray,SortMethod));\
       fprintf(pF,"%d",timeInMS()-time);\

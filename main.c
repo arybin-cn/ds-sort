@@ -13,7 +13,8 @@
 int main(){
   int time;
   PIntArray pRawArray,pSortedArray;
-  pRawArray = randomIntArray(1,400,50000);
+  pRawArray = randomIntArray(1,30000,20000);
+  //sortIntArrayBy(pRawArray,quickSort);
   printf("%s",isOrdered(pRawArray)?"Sorted":"Unsorted");
   printf(" raw int array with size %d\n",pRawArray->size);
   //select sort

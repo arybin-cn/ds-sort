@@ -78,6 +78,11 @@ PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
   return pNewArray;
 }
 
+PIntArray sortIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
+  sorter(pOldArray->data,pOldArray->size);
+  return pOldArray;
+}
+
 void bubbleSort(int *data,int size){
   int i,j,changed,swap;
   for(i=0;i<size;i++){
