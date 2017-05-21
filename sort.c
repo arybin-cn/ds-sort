@@ -15,6 +15,18 @@ PIntArray buildIntArray(int size){
   return pIntArray;
 }
 
+PIntArray buildIntArrayFrom(int *array,int size){
+  PIntArray pIntArray;
+  pIntArray=(PIntArray)malloc(sizeof(IntArray));
+  pIntArray->data=array;
+  if(!pIntArray){
+    printf("Fail to allocate memory..\n");
+    return NULL;
+  }
+  pIntArray->size=size;
+  return pIntArray;
+}
+
 PIntArray randomIntArray(int min,int max,int size){
   int i;
   PIntArray pIntArray;
@@ -78,9 +90,8 @@ PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
   return pNewArray;
 }
 
-PIntArray sortIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
+void sortIntArrayBy(PIntArray pOldArray,IntArraySorter sorter){
   sorter(pOldArray->data,pOldArray->size);
-  return pOldArray;
 }
 
 void bubbleSort(int *data,int size){

@@ -13,7 +13,31 @@
 int main(){
   int time;
   PIntArray pRawArray,pSortedArray;
-  pRawArray = randomIntArray(1,30000,20000);
+
+  //Ex1
+  //For textbook p258
+  int array[]={49,38,65,97,76,13,27,49};
+  pRawArray=buildIntArrayFrom(array,8);
+  printf("Raw int array:\n");
+  printlnIntArray(pRawArray);
+
+  pSortedArray=sortedIntArrayBy(pRawArray,normalShellSort);
+  printf("After sorting by normalShellSort:\n");
+  printlnIntArray(pSortedArray);releaseIntArray(pSortedArray);
+
+  pSortedArray=sortedIntArrayBy(pRawArray,binShellSort);
+  printf("After sorting by binShellSort:\n");
+  printlnIntArray(pSortedArray);releaseIntArray(pSortedArray);
+
+  pSortedArray=sortedIntArrayBy(pRawArray,linkSort);
+  printf("After sorting by linkSort:\n");
+  printlnIntArray(pSortedArray);releaseIntArray(pSortedArray);
+
+  printf("\n****************************\n\n");
+
+  //Ex2
+  //For random int array(length>1000)
+  pRawArray = randomIntArray(1,30000,10000);
   //sortIntArrayBy(pRawArray,quickSort);
   printf("%s",isOrdered(pRawArray)?"Sorted":"Unsorted");
   printf(" raw int array with size %d\n",pRawArray->size);

@@ -15,7 +15,6 @@ except{end+1}=strcat('normalInsertSort','_',suffix,'.csv');
 except{end+1}=strcat('normalSelectSort','_',suffix,'.csv');
 draw('unsorted_round_3','unsorted',[0 200],except);
 %Round Four
-except{end+1}=strcat('binShellSelectSort','_',suffix,'.csv');
 draw('unsorted_round_4','unsorted',[0 10],except);
 
 

@@ -1,0 +1,24 @@
+Raw int array:
+49 38 65 97 76 13 27 49
+After sorting by normalShellSort:
+13 27 38 49 49 65 76 97
+After sorting by binShellSort:
+13 27 38 49 49 65 76 97
+After sorting by linkSort:
+13 27 38 49 49 65 76 97
+
+****************************
+
+Unsorted raw int array with size 10000
+normalSelectSort    178ms     sorted
+  heapSelectSort      3ms     sorted
+        linkSort    195ms     sorted
+ normalShellSort      3ms     sorted
+    binShellSort      6ms     sorted
+normalInsertSort    115ms     sorted
+   binInsertSort     98ms     sorted
+      bubbleSort    385ms     sorted
+    cockTailSort    295ms     sorted
+       quickSort      2ms     sorted
+       mergeSort      2ms     sorted
+       radixSort     98ms     sorted

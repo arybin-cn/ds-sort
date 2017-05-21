@@ -10,6 +10,7 @@ int timeInMS();
 int isOrdered(PIntArray pIntArray);
 
 PIntArray buildIntArray(int size);
+PIntArray buildIntArrayFrom(int *array,int size);
 PIntArray randomIntArray(int min,int max,int size);
 PIntArray cloneIntArray(PIntArray source);
 
@@ -21,6 +22,7 @@ void printlnIntArray(PIntArray pIntArray);
 void releaseIntArray(PIntArray pIntArray);
 
 
+void sortIntArrayBy(PIntArray pOldArray,IntArraySorter sorter);
 PIntArray sortedIntArrayBy(PIntArray pOldArray,IntArraySorter sorter);
 void bubbleSort(int *data,int size);
 void cockTailSort(int *data,int size);
