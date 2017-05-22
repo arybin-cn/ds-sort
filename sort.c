@@ -275,13 +275,8 @@ void heapSelectSort(int *data,int size){
 }
 
 void innerMergeSort(int* data,int* tmp,int low,int high){
-  int middle,i,j,k,swap;
-  if(high<=low+1){
-    if(data[high]<data[low]){
-      swap=data[low];
-      data[low]=data[high];
-      data[high]=swap;
-    }
+  int middle,i,j,k;
+  if(high==low){
     return;
   }
   middle=(low+high)/2;

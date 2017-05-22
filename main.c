@@ -37,7 +37,7 @@ int main(){
 
   //Ex2
   //For random int array(length>1000)
-  pRawArray = randomIntArray(1,30000,10000);
+  pRawArray = randomIntArray(1,30000,1000);
   //sortIntArrayBy(pRawArray,quickSort);
   printf("%s",isOrdered(pRawArray)?"Sorted":"Unsorted");
   printf(" raw int array with size %d\n",pRawArray->size);
